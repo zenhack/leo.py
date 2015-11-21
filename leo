@@ -16,8 +16,13 @@ arg_parser.add_argument('query',
                         help="word(s) to search for")
 
 section_names = (
+    'subst',
     'verb',
+    'adjadv',
+    'preaep',
+    'definition',
     'phrase',
+    'example',
 )
 
 
