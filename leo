@@ -6,6 +6,7 @@ from lxml import etree
 from io import StringIO
 from compat23.core import *
 import argparse
+from tabulate import tabulate
 
 arg_parser = argparse.ArgumentParser(
     description="Query the leo.org German/English dictionary."
@@ -14,6 +15,10 @@ arg_parser.add_argument('query',
                         metavar='search-term',
                         nargs='+',
                         help="word(s) to search for")
+arg_parser.add_argument('-j', '--json',
+                        action='store_true',
+                        default=False,
+                        help='Format results as JSON.')
 
 section_names = (
     'subst',
@@ -64,7 +69,15 @@ def search(term, uri='https://dict.leo.org/ende/'):
 def main():
     args = arg_parser.parse_args()
     query = ' '.join(args.query)
-    print(json.dumps(search(query)))
+    results = search(query)
+    if args.json:
+        print(json.dumps(results))
+    else:
+        for section_name in results.keys():
+            print(section_name)
+            table = [[r['en'], r['de']] for r in results[section_name]]
+            print(tabulate(table, headers=['English', 'German']))
+            print('')  # Extra newline
 
 if __name__ == '__main__':
     main()

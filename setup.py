@@ -10,4 +10,5 @@ setup(name='leo',
           'compat23',
           'lxml',
           'requests',
+          'tabulate',
       ])
