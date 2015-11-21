@@ -4,6 +4,7 @@ import json
 import requests
 from lxml import etree
 from io import StringIO
+from compat23.core import *
 import argparse
 
 arg_parser = argparse.ArgumentParser(
@@ -25,11 +26,11 @@ def _get_text(elt):
 
     def _helper(_elt):
         if _elt.text is not None:
-            buf.write(_elt.text)
+            buf.write(unicode(_elt.text))
         for child in _elt:
             _helper(child)
         if _elt.tail is not None:
-            buf.write(_elt.tail)
+            buf.write(unicode(_elt.tail))
 
     _helper(elt)
     return buf.getvalue()
