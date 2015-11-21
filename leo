@@ -4,8 +4,15 @@ import json
 import requests
 from lxml import etree
 from io import StringIO
+import argparse
 
-import sys
+arg_parser = argparse.ArgumentParser(
+    description="Query the leo.org German/English dictionary."
+)
+arg_parser.add_argument('query',
+                        metavar='search-term',
+                        nargs='+',
+                        help="word(s) to search for")
 
 section_names = (
     'verb',
@@ -49,12 +56,9 @@ def search(term, uri='https://dict.leo.org/ende/'):
 
 
 def main():
-    args = sys.argv[1:]
-    if args == []:
-        sys.stderr.write("Usage: %s search-term\n" % sys.argv[0])
-        sys.exit(1)
-    term = ' '.join(args)
-    print(json.dumps(search(term)))
+    args = arg_parser.parse_args()
+    query = ' '.join(args.query)
+    print(json.dumps(search(query)))
 
 if __name__ == '__main__':
     main()
