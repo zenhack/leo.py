@@ -17,11 +17,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import six
 import json
 import requests
 from lxml import etree
 from io import StringIO
-from compat23.core import *
 import argparse
 from tabulate import tabulate
 
@@ -55,11 +55,11 @@ def _get_text(elt):
 
     def _helper(_elt):
         if _elt.text is not None:
-            buf.write(unicode(_elt.text))
+            buf.write(six.text_type(_elt.text))
         for child in _elt:
             _helper(child)
         if _elt.tail is not None:
-            buf.write(unicode(_elt.tail))
+            buf.write(six.text_type(_elt.tail))
 
     _helper(elt)
     return buf.getvalue()
