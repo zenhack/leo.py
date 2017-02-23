@@ -71,7 +71,7 @@ def search(term, uri='https://dict.leo.org/ende/'):
     html = etree.parse(StringIO(resp.text), p)
     ret = {}
     for section_name in section_names:
-        section = html.find(".//div[@id='section-%s']" % section_name)
+        section = html.find(".//div[@data-dz-name='%s']" % section_name)
         if section is None:
             continue
         ret[section_name] = []
